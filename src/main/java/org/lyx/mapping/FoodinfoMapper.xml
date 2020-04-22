@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.lyx.dao.FoodInfoDao" >
+
+
+  <select id="all" resultType="FoodInfo">
+        select * from foodinfo
+  </select>
+
+  <select id="findByName" resultType="FoodInfo">
+        select * from foodinfo
+        <where>
+          <if test="foodName !=null">
+            foodName like concat('%',#{foodName},'%')
+          </if>
+          <if test="remark !=null">
+            and remark like concat('%',#{remark},'%')
+          </if>
+        </where>
+  </select>
+
+  <select id="findById" parameterType="int" resultType="FoodInfo">
+    select * from foodinfo
+    where foodId = #{foodId}
+  </select>
+
+  <delete id="delete" parameterType="int" >
+    delete from foodinfo
+    where foodId = #{foodId}
+  </delete>
+  
+  <insert id="insert" parameterType="FoodInfo">
+    INSERT into foodinfo(foodId,foodName,remark,foodPrice,description,foodImage)
+    VALUES(#{foodId},#{foodName},#{remark},#{foodPrice},#{description},#{foodImage})
+  </insert>
+
+  <update id="update" parameterType="FoodInfo">
+    update foodinfo set foodName=#{foodName},remark=#{remark},foodPrice=#{foodPrice},description=#{description},foodImage=#{foodImage}
+    where foodId=#{foodId}
+  </update>
+</mapper>
